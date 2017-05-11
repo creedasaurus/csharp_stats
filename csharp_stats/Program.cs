@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 
 namespace csharp_stats
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            //meanMedianMode();
+            var nums = "1 2 3 4 5 6 7".Split(' ').Select(int.Parse).ToList();
+            
+            StatsFuncs funcs = new StatsFuncs(nums);
 
+            Console.WriteLine(funcs.Median());
+
+
+            //meanMedianMode();
             //weightedMean();
             //stdDeviation();
-            Quartiles();
-
-            Console.ReadKey();
+            //Quartiles();
         }
 
 
-        private static void Quartiles()
+        public static void Quartiles()
         {
             int numOfElements;
             int.TryParse(Console.ReadLine(), out numOfElements);

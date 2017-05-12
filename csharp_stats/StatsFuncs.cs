@@ -35,30 +35,42 @@ namespace csharp_stats
 
         public double Quartile(int q)
         {
-            
             var take = Nums.Count / 2;
 
-            // TODO: get this part working
             switch (q)
             {
                 case 1:
-                    return Median();
-                    break;
+                    return Median(Nums.Take(take).ToList());
                 case 2:
-                    break;
+                    return Median();
+                case 3:
+                    return Nums.Count % 2 == 0
+                        ? Median(Nums.Skip(take).Take(take).ToList())
+                        : Median(Nums.Skip(take + 1).Take(take).ToList());
                 default:
                     Console.WriteLine("invalid quartile. Only 1, 2, or 3");
-                    break;
+                    return -1.0;
             }
+        }
 
+        public double StdDeviation()
+        {
+            var avg = Nums.Average();
+            var innnerNumer = Nums.Select(i => (i - avg) * (i - avg)).Aggregate((start, next) => start += next);
+            var stdDev = Math.Sqrt(innnerNumer / Nums.Count);
+            return stdDev;
+        }
 
-            return 3.0;
+        public double WeightedMean(List<int> weights)
+        {
+            if (weights.Count != Nums.Count) return -1.0;
 
-            Console.WriteLine($"{Median(scores.Take(take).ToList()):0}");
-            Console.WriteLine($"{Median(scores):0}");
-            Console.WriteLine(numOfElements % 2 == 0
-                ? $"{Median(scores.Skip(take).Take(take).ToList()):0}"
-                : $"{Median(scores.Skip(take + 1).Take(take).ToList()):0}");
+            var numer = Nums.Zip(weights, (scr, weight) => scr * weight)
+                .Aggregate((strt, nxt) => strt += nxt);
+
+            var denom = (double)weights.Aggregate((strt, nxt) => strt += nxt);
+
+            return numer / denom;
         }
 
     }

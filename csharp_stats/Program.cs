@@ -10,11 +10,21 @@ namespace csharp_stats
     {
         static void Main(string[] args)
         {
-            var nums = "1 2 3 4 5 6 7".Split(' ').Select(int.Parse).ToList();
+            var nums = "10 40 30 50 20".Split(' ').Select(int.Parse).ToList();
             
-            StatsFuncs funcs = new StatsFuncs(nums);
+            var stats = new StatsFuncs(nums);
 
-            Console.WriteLine(funcs.Median());
+            Console.WriteLine(stats.Median());
+            Console.WriteLine(stats.StdDeviation());
+            Console.WriteLine(stats.Quartile(1));
+            Console.WriteLine(stats.Quartile(2));
+            Console.WriteLine(stats.Quartile(3));
+
+            Console.WriteLine("Enter in weights for weighted average");
+            var readLine = "1 2 3 4 5";
+            if (readLine == null) return;
+            var weights = readLine.Split(' ').Select(int.Parse).ToList();
+            Console.WriteLine(stats.WeightedMean(weights));
 
 
             //meanMedianMode();
